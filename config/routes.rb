@@ -1,5 +1,24 @@
 Rails.application.routes.draw do
-  get "render/index"
+  resource :session
+  resources :passwords, param: :token
+  resources :products do
+    resources :subscribers, only: [ :create ]
+    resource :unsubscribe, only: [ :show ]
+
+  end
+
+
+  get "/products/new", to: "products#new"
+  post "/products", to: "products#create"
+
+  get "/products/:id", to: "products#show"
+
+  get "/products/:id/edit", to: "products#edit"
+  patch "/products/:id", to: "products#update"
+  put "/products/:id", to: "products#update"
+
+  delete "/products/:id", to: "products#destroy"
+  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -12,5 +31,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  root "render#index"
+  # root "render#index"
+  root "products#index"
+
 end
