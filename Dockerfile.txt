@@ -1,0 +1,17 @@
+# Chọn base image từ Docker Hub (node image)
+FROM node:16
+
+# Cài đặt yarn
+RUN npm install -g yarn
+
+# Thiết lập thư mục làm việc trong container
+WORKDIR /app
+
+# Sao chép mã nguồn từ máy tính của bạn vào container
+COPY . .
+
+# Cài đặt các dependencies từ package.json
+RUN yarn install
+
+# Chạy ứng dụng khi container khởi động
+CMD ["yarn", "start"]
