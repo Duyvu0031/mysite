@@ -1,4 +1,7 @@
 {
   "name": "app",
-  "private": true
+  "private": true,
+  "scripts": {
+    "build": "webpack --config config/webpack/production.js"
+  }
 }
