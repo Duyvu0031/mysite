@@ -1,7 +1,22 @@
 {
-  "name": "app",
+  "name": "mysite",
   "private": true,
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo-rails": "^8.0.12",
+    "@popperjs/core": "^2.11.8",
+    "@rails/actioncable": "^7.0.0",
+    "@rails/ujs": "^7.0.0",
+    "bootstrap": "^5.3.0",
+    "popper.js": "^1.16.1",
+    "tailwindcss": "^3.0.0"
+  },
   "scripts": {
-    "build": "webpack --config config/webpack/production.js"
+    "build": "webpack --config webpack.config.js",
+    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css"
+  },
+  "devDependencies": {
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
   }
 }
