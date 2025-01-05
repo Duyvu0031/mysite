@@ -1,11 +1,24 @@
 class ApplicationController < ActionController::Base
-  include Authentication
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
-  around_action :switch_locale
+  def allow_unauthenticated_access(options = {})
+    # Cho phép truy cập không cần đăng nhập cho các action được chỉ định
+    skip_before_action :authenticate_user!, only: options[:only]
+  end
+  helper_method :authenticated?
 
-  def switch_locale(&action)
-    locale = params[:locale] || I18n.default_locale
-    I18n.with_locale(locale, &action)
+  before_action :authenticate_user!, except: %i[new create]
+
+  # Phương thức cho phép truy cập không cần đăng nhập
+  def allow_unauthenticated_access(options = {})
+    skip_before_action :authenticate_user!, only: options[:only]
+  end
+
+  def authenticated?
+    session[:user_id].present?
+  end
+
+  def authenticate_user!
+    unless session[:user_id]
+      redirect_to login_path, alert: "Bạn cần phải đăng nhập trước khi truy cập trang này."
+    end
   end
 end

@@ -1,6 +1,8 @@
 class ProductsController < ApplicationController
-  allow_unauthenticated_access only: %i[ index show ]
-  before_action :set_product, only: %i[ show edit update destroy ]
+  before_action :set_product, only: %i[show edit update destroy]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :authenticate_user!, only: %i[new create edit update]
+
 
   def index
     @products = Product.all
@@ -26,19 +28,21 @@ class ProductsController < ApplicationController
   end
 
   def update
-    @product = Product.find(params[:id])
     if @product.update(product_params)
-      redirect_to @product
+      redirect_to @product, notice: 'Product was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @product.destroy
-    redirect_to products_path
+    if @product.destroy
+      redirect_to products_path, notice: 'Product was successfully deleted.'
+    else
+      redirect_to @product, alert: 'Failed to delete the product.'
+    end
   end
-
+  
   private
 
     def set_product
@@ -49,8 +53,5 @@ class ProductsController < ApplicationController
       params.require(:product).permit(:name, :description, :quantity, :featured_image)
     end
 
-    def in_stock
-      @product = params[:product]
-      mail to: params[:subscriber].email
-    end
+    
 end
