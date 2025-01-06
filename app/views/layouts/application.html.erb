@@ -28,10 +28,13 @@
   <body>
   <nav>
   <h1><%= t ".language" %></h1>
-<%= link_to "Home", root_path %>
-<%= link_to "Login", new_session_path unless authenticated? %>
-
-<%= button_to "Log out", session_path, method: :delete if authenticated? %>
+  <%= link_to "Home", root_path %>
+  <% if session[:user_id] %>
+    <p>Chào mừng bạn:, <%= User.find(session[:user_id]).email_address %>!</p>
+    <%= button_to "Log out", session_path, method: :delete %>
+  <% else %>
+    <%= link_to "Login", new_session_path %>
+  <% end %>
 </nav>
 <div class="notice"><%= notice %></div>
 <main>

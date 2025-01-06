@@ -1,11 +1,17 @@
 Rails.application.routes.draw do
-  resource :session
-  resources :passwords, param: :token
+ # Đăng nhập và quản lý phiên
+ resource :session, only: %i[new create destroy]
+ # Đăng ký người dùng
+ resources :users, only: %i[new create]
+ # Quản lý mật khẩu
+ resources :passwords, param: :token, only: %i[new create edit update]
+ 
 
-  resources :products do
-    resources :subscribers, only: [:create]
-    resource :unsubscribe, only: [:show]
-  end
+ # Quản lý sản phẩm
+ resources :products do
+  resources :subscribers, only: [:create]
+  resource :unsubscribe, only: [:show]
+end
   
   get "/products", to: "products#index"
 
