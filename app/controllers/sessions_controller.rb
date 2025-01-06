@@ -1,19 +1,21 @@
 class SessionsController < ApplicationController
+  allow_unauthenticated_access only: %i[ new create ]
+  rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_session_url, alert: "Try again later." }
+
+  def new
+  end
+
   def create
-    user = User.find_by(email_address: params[:email_address])
-    if user && user.authenticate(params[:password])
-      # Đăng nhập thành công, lưu session
-      session[:user_id] = user.id  # Lưu user_id vào session
-      redirect_to root_path # Điều hướng về trang chủ hoặc trang sau khi đăng nhập
+    if user = User.authenticate_by(params.permit(:email_address, :password))
+      start_new_session_for user
+      redirect_to after_authentication_url
     else
-      flash[:alert] = "Invalid email or password"
-      render :new, status: :unprocessable_entity
+      redirect_to new_session_path, alert: "Try another email address or password."
     end
   end
 
-  private
-
-  def after_authentication_url
-    products_path  # Hoặc trang bạn muốn điều hướng đến sau khi đăng nhập thành công
+  def destroy
+    terminate_session
+    redirect_to new_session_path
   end
 end

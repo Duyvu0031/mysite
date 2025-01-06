@@ -1,12 +1,12 @@
 class Product < ApplicationRecord
-  include Notifications
-  has_many :subscribers, dependent: :destroy
-  has_one_attached :featured_image
-  has_rich_text :description
+    include Notifications
+    has_many :subscribers, dependent: :destroy
+    validates :name, presence: true
+    has_one_attached :featured_image
+    has_rich_text :description
+    validates :inventory_count, numericality: { greater_than_or_equal_to: 0 }
 
-  validates :name, presence: true
-  validates :inventory_count, numericality: { greater_than_or_equal_to: 0 }
-  after_update_commit :notify_subscribers, if: :back_in_stock?
+    after_update_commit :notify_subscribers, if: :back_in_stock?
 
   def back_in_stock?
     inventory_count_previously_was.zero? && inventory_count > 0
