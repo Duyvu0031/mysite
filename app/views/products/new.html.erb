@@ -1,4 +1,66 @@
-<h1>New product</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Product</title>
+  <!-- Thêm liên kết đến Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      margin-top: 50px;
+      padding: 30px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .btn-cancel {
+      display: block;
+      width: 150px;
+      margin: 20px auto;
+      background-color: #6c757d;
+      color: white;
+      text-align: center;
+      border-radius: 50px;
+      padding: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .btn-cancel:hover {
+      background-color: #5a6268;
+    }
+  </style>
+</head>
+<body>
 
-<%= render "form", product: @product %>
-<%= link_to "Cancel", products_path %>
+  <div class="container">
+    <!-- Tiêu đề -->
+    <h1>Tạo Mới Sản Phẩm</h1>
+
+    <!-- Form tạo sản phẩm -->
+    <%= render "form", product: @product %>
+
+    <!-- Nút Cancel -->
+    <%= link_to "Cancel", @product, class: "btn-cancel" %>
+  </div>
+
+  <!-- Liên kết đến Bootstrap JS và jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

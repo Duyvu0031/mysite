@@ -5,7 +5,7 @@ class ProductsController < ApplicationController
     @products = Product.all
   end
   def show
-   
+    @back_in_stock = @product.back_in_stock?
   end
   def new
     @product = Product.new

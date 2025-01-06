@@ -6,37 +6,53 @@
   <title>Login</title>
   <!-- Thêm liên kết đến Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .login-container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .alert {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
   <div class="container mt-5">
-    <!-- Hiển thị thông báo lỗi hoặc thành công -->
-    <div class="alert alert-danger" role="alert" style="display: <%= 'block' if flash[:alert] %>;">
-      <%= flash[:alert] %>
-    </div>
-    <div class="alert alert-success" role="alert" style="display: <%= 'block' if flash[:notice] %>;">
-      <%= flash[:notice] %>
-    </div>
-
-    <h2 class="text-center">Sign In</h2>
-
-    <%= form_with url: session_path, class: "mt-4" do |form| %>
-      <div class="form-group">
-        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", class: "form-control", value: params[:email_address] %>
+    <div class="login-container">
+      <!-- Hiển thị thông báo lỗi hoặc thành công -->
+      <div class="alert alert-danger" role="alert" id="alert-danger">
+        <%= flash[:alert] %>
       </div>
-      <div class="form-group">
-        <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", class: "form-control", maxlength: 72 %>
+      <div class="alert alert-success" role="alert" id="alert-success">
+        <%= flash[:notice] %>
       </div>
-      <div class="form-group text-center">
-        <%= form.submit "Sign in", class: "btn btn-primary" %>
+
+      <h2 class="text-center mb-4">Sign In</h2>
+
+      <%= form_with url: session_path, class: "mt-4" do |form| %>
+        <div class="form-group">
+          <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", class: "form-control", value: params[:email_address] %>
+        </div>
+        <div class="form-group">
+          <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", class: "form-control", maxlength: 72 %>
+        </div>
+        <div class="form-group text-center">
+          <%= form.submit "Sign in", class: "btn btn-primary btn-block" %>
+        </div>
+      <% end %>
+
+      <div class="text-center mt-4">
+        <%= link_to "Forgot password?", new_password_path, class: "d-block mb-2" %>
+        <%= link_to "Create Account", new_user_path, class: "btn btn-secondary btn-block" %>
       </div>
-    <% end %>
-
-    <br>
-
-    <div class="text-center mt-4">
-      <%= link_to "Forgot password?", new_password_path, class: "d-block mb-2" %>
-      <%= link_to "Create Account", new_user_path, class: "btn btn-secondary" %>
     </div>
   </div>
 
@@ -44,6 +60,16 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+  
+  <script>
+    // Hiển thị thông báo nếu có
+    if ("<%= flash[:alert] %>" != "") {
+      document.getElementById('alert-danger').style.display = 'block';
+    }
+    if ("<%= flash[:notice] %>" != "") {
+      document.getElementById('alert-success').style.display = 'block';
+    }
+  </script>
+  
 </body>
 </html>

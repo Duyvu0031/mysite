@@ -18,14 +18,15 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to after_authentication_url, notice: "chào mừng bạn: #{user.email_address}!"
     else
-      redirect_to new_session_path, alert: "Hãy thử một địa chỉ email hoặc mật khẩu khác."
+      flash.now[:alert] = "Email hoặc mật khẩu không hợp lệ"
+      render :new
     end
   end
 
   def destroy
     terminate_session
     session[:user_id] = nil # Xóa thông tin người dùng khỏi session khi đăng xuất
-    redirect_to new_session_path
+    redirect_to new_session_path,notice: "Đã đăng xuất thành công"
   end
 end
   

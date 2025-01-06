@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
  # Đăng nhập và quản lý phiên
- resource :session, only: %i[new create destroy]
+ resource :session, only: [:new, :create, :destroy]
  # Đăng ký người dùng
- resources :users, only: %i[new create]
+ resources :users, only: [:new, :create]
  # Quản lý mật khẩu
  resources :passwords, param: :token, only: %i[new create edit update]
  
