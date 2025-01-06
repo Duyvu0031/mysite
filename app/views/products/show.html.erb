@@ -1,19 +1,44 @@
-<p><%= link_to "Back", products_path %></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Page</title>
+  <!-- Thêm liên kết đến Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 
-<section class="product">
-  <%= image_tag @product.featured_image if @product.featured_image.attached? %>
+  <p><%= link_to "Back", products_path, class: "btn btn-secondary" %></p>
 
-  <section class="product-info">
-    <% cache @product do %>
-      <h1><%= @product.name %></h1>
-      <%= @product.description %>
-    <% end %>
+  <section class="product">
+    <div class="row">
+      <div class="col-md-6">
+        <%= image_tag @product.featured_image, class: "img-fluid" if @product.featured_image.attached? %>
+      </div>
 
-    <%= render "inventory", product: @product %>
+      <div class="col-md-6 product-info">
+        <% cache @product do %>
+          <h1 class="display-4"><%= @product.name %></h1>
+          <p><%= @product.description %></p>
+        <% end %>
 
-    <% if authenticated? %>
-      <%= link_to "Edit", edit_product_path(@product) %>
-      <%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
-    <% end %>
+        <%= render "inventory", product: @product %>
+
+        <% if authenticated? %>
+          <div class="mt-3">
+            <%= link_to "Edit", edit_product_path(@product), class: "btn btn-warning" %>
+            <%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger ml-2" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </section>
-</section>
+
+  <!-- Thêm liên kết đến Bootstrap JS và jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,12 +1,20 @@
 <h1>Products</h1>
 
-<div id="products">
-  <% @products.each do |product| %>
-    <div>
-    <%= link_to product.name, product %>
-    </div>
-    
-  <% end %>
-  <%= link_to "New product", new_product_path if authenticated? %>
+<table id="products" style="width: 100%; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid #ddd; padding: 8px;">Name</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td style="border: 1px solid #ddd; padding: 8px;"><%= product.name %></td>
+        <td style="border: 1px solid #ddd; padding: 8px;"><%= link_to "Xem", product, class: "btn btn-info" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
-</div>
+<%= link_to "New Product", new_product_path, class: "btn btn-primary", style: "display: block; margin-top: 20px;" if authenticated? %>
